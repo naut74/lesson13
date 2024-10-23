@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            gap: 10;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tâm thư</h1>
+    <form name="texta">
+        <textarea name="text" onkeydown="typetext()" placeholder="Viết thứ gì hay ho vào đây nào" style="height: 150px; width: 300px;"></textarea>
+    </form>
+    <script>
+        let result;
+        let str='TÔI LÀ MỘT ĐỨA NGỐC!!!';
+
+        function typetext(){
+            let i=0;
+            let txt=document.texta.txt.value;
+            if(txt.length>0){
+                result+=str[i];
+                txt=result;
+                if(i>=str.length){
+                    i=0;
+                    result=''
+                }
+            }            
+            return false;
+        }
+    </script>
+</body>
+</html>
