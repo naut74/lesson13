@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caro game</title>
+    <style>
+        body{
+            padding-top: 50px;
+            gap: 10;
+            text-align: center;
+            /* justify-items: center; */
+        }
+    </style>
+</head>
+<body>
+    <h1>Caro game</h1>
+    <p id="turn"></p>
+    <p id="result"></p>
+    <button type="button" onclick="changeValue();">Make move</button>
+    <button type="button" onclick="resetgame()">Reset</button>
+    
+    <script>
+        let rows=10;
+        let cols=10;
+        let board=[];
+        let currentPlayer='x';
+
+        function initArr(){
+            let data="";
+            for(let i=0;i<rows;i++){
+                board[i]=[];
+                data+="<br/>";
+                for(let j=0;j<cols;j++){
+                    board[i][j]='-';
+                    data+=board[i][j]+'&nbsp;&nbsp;&nbsp;&nbsp;';
+                }
+            }
+            document.getElementById('result').innerHTML=data;
+            document.getElementById('turn').innerHTML="Player's "+currentPlayer+" turn";
+        }
+
+        function updateboard(){
+            let data="";
+            for(let i=0;i<rows;i++){
+                data+="<br/>";
+                for(let j=0;j<cols;j++){
+                    data+=board[i][j]+'&nbsp;&nbsp;&nbsp;&nbsp;';
+                }
+            }
+            document.getElementById('result').innerHTML=data;
+            document.getElementById('turn').innerHTML="Player's "+currentPlayer+" turn";
+        }
+
+        function changeValue(){
+            let X=parseInt(prompt('Enter X (0-4)'));
+            let Y=parseInt(prompt('Enter Y (0-4)'));
+            if(X>=0 && X<=4 && Y>=0 && Y<=4){
+                board[X][Y]=currentPlayer;
+                if(checkWin(X,Y)){
+                    alert("Player's "+currentPlayer+" win")
+                }
+                else{
+                    currentPlayer=currentPlayer==='x'?'o':'x';
+                    updateboard();
+                }
+            }
+            else{
+                alert('Invalid move! Please enter a value between 0 and 4.');
+            }  
+        }
+
+        function checkWin(x, y) {
+            return checkDirection(x, y, 1, 0) ||  
+                   checkDirection(x, y, 0, 1) ||  
+                   checkDirection(x, y, 1, 1) ||  
+                   checkDirection(x, y, 1, -1);   
+        }
+
+        function checkDirection(x, y, dx, dy) {
+            let count = 1;
+
+            // Kiểm tra về phía trước (theo hướng dx, dy)
+            let i = x + dx, j = y + dy;
+            while (i >= 0 && i < rows && j >= 0 && j < cols && board[i][j] === currentPlayer) {
+                count++;
+                i += dx;
+                j += dy;
+            }
+            // Kiểm tra về phía sau (ngược hướng dx, dy)
+            i = x - dx;
+            j = y - dy;
+            while (i >= 0 && i < rows && j >= 0 && j < cols && board[i][j] === currentPlayer) {
+                count++;
+                i -= dx;
+                j -= dy;
+            }
+
+            return count >= 4;  // Nếu đủ 4 ô liên tiếp, trả về true
+        }
+
+        function resetgame(){
+            initArr();
+        }
+        initArr();
+    </script>
+</body>
+</html>
